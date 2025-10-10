@@ -16,6 +16,6 @@ public class HomeController {
     @ResponseBody
     public String welcome() {
     	
-        return "안녕";
+        return "안녕22";
     }
 }
