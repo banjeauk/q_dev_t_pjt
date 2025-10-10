@@ -1,0 +1,70 @@
+@startuml Database ERD
+!define ENTITY class
+!define PK <<PK>>
+!define FK <<FK>>
+
+ENTITY chat_history {
+  + id : BIGINT PK
+  --
+  user_message : VARCHAR(1000)
+  ai_response : VARCHAR(2000)
+  created_at : TIMESTAMP
+}
+
+ENTITY users {
+  + id : BIGINT PK
+  --
+  username : VARCHAR(50) UNIQUE
+  email : VARCHAR(100) UNIQUE
+  password : VARCHAR(255)
+  full_name : VARCHAR(100)
+  phone : VARCHAR(20)
+  status : VARCHAR(20)
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+  last_login : TIMESTAMP
+}
+
+ENTITY user_roles {
+  + id : BIGINT PK
+  --
+  user_id : BIGINT FK
+  role_name : VARCHAR(50)
+  created_at : TIMESTAMP
+}
+
+ENTITY login_history {
+  + id : BIGINT PK
+  --
+  user_id : BIGINT FK
+  login_time : TIMESTAMP
+  ip_address : VARCHAR(45)
+  user_agent : TEXT
+  login_status : VARCHAR(20)
+}
+
+ENTITY chat_sessions {
+  + id : BIGINT PK
+  --
+  user_id : BIGINT FK
+  session_name : VARCHAR(100)
+  created_at : TIMESTAMP
+}
+
+ENTITY password_reset_tokens {
+  + id : BIGINT PK
+  --
+  user_id : BIGINT FK
+  token : VARCHAR(255) UNIQUE
+  expires_at : TIMESTAMP
+  used : BOOLEAN
+  created_at : TIMESTAMP
+}
+
+' 관계 정의
+users ||--o{ user_roles : "has"
+users ||--o{ login_history : "logs"
+users ||--o{ chat_sessions : "creates"
+users ||--o{ password_reset_tokens : "requests"
+
+@enduml
