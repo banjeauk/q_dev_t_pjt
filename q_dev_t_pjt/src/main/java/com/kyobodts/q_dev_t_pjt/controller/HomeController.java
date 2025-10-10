@@ -15,6 +15,7 @@ public class HomeController {
     @GetMapping("/welcome")
     @ResponseBody
     public String welcome() {
+    	
         return "안녕";
     }
 }
