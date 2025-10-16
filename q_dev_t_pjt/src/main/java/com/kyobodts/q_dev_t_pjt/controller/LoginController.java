@@ -9,30 +9,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.kyobodts.q_dev_t_pjt.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Controller
-@RequiredArgsConstructor
 public class LoginController {
-    private final UserService userService;
+    
+    @Autowired
+    private UserService userService;
 
-    
-    
-    @GetMapping("/")
-    public String home() {
-        return "redirect:/login";
-    }
-    
+
+
     @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
-    
+
     @GetMapping("/register")
     public String registerPage() {
         return "register";
     }
-    
+
     @PostMapping("/register")
     public String register(@RequestParam("username") String username,
                           @RequestParam("password") String password,
