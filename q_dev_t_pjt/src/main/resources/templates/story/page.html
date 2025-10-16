@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>동화 - 페이지</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .page-container { border: 2px solid #ddd; border-radius: 10px; padding: 30px; margin: 20px 0; background: #fafafa; }
+        .page-number { text-align: center; color: #666; margin-bottom: 20px; }
+        .story-content { font-size: 18px; line-height: 1.6; margin-bottom: 30px; text-align: justify; }
+        .image-placeholder { width: 100%; height: 300px; background: #e9ecef; border: 2px dashed #adb5bd; display: flex; align-items: center; justify-content: center; margin: 20px 0; border-radius: 10px; }
+        .choices { margin-top: 30px; }
+        .choice-button { display: block; width: 100%; padding: 15px; margin: 10px 0; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        .choice-button:hover { background: #218838; }
+        .navigation { text-align: center; margin-top: 30px; }
+        .nav-button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin: 0 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="page-number">
+            <h2>페이지 <span th:text="${page.pageNumber}"></span> / 8</h2>
+        </div>
+        
+        <div class="image-container" style="text-align: center; margin: 20px 0;">
+            <div th:if="${page.imagePath == null}" class="image-placeholder">
+                <div>
+                    <p>🎨 이미지 생성 중...</p>
+                    <small th:text="${page.imagePrompt}"></small>
+                </div>
+            </div>
+            
+            <div th:if="${page.imagePath != null}">
+                <img th:src="${page.imagePath}" alt="AI Generated Image" 
+                     style="max-width: 100%; height: auto; max-height: 400px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);"
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div style="display: none; padding: 20px; background: #f8f9fa; border-radius: 10px; border: 2px dashed #dee2e6;">
+                    <p>🖼️ 이미지를 불러올 수 없습니다</p>
+                    <small>이미지 생성에 실패했거나 로딩 중입니다.</small>
+                </div>
+            </div>
+        </div>
+        
+        <div class="story-content" th:text="${page.content}"></div>
+        
+        <div th:if="${!isLastPage}" class="choices">
+            <h3>다음은 어떻게 할까요?</h3>
+            <form th:action="@{/story/{storyId}/page/{pageNumber}/choice(storyId=${storyId}, pageNumber=${page.pageNumber})}" method="post">
+                <input type="hidden" name="pageId" th:value="${page.id}">
+                
+                <button type="submit" name="choice" th:value="${page.choice1}" class="choice-button" th:text="${page.choice1}"></button>
+                <button type="submit" name="choice" th:value="${page.choice2}" class="choice-button" th:text="${page.choice2}"></button>
+                <button type="submit" name="choice" th:value="${page.choice3}" class="choice-button" th:text="${page.choice3}"></button>
+                <button type="submit" name="choice" th:value="${page.choice4}" class="choice-button" th:text="${page.choice4}"></button>
+            </form>
+        </div>
+        
+        <div th:if="${isLastPage}" class="navigation">
+            <h3>🎉 동화가 완성되었습니다!</h3>
+            <a th:href="@{/story/{storyId}/complete(storyId=${storyId})}" class="nav-button">전체 동화 보기</a>
+        </div>
+    </div>
+</body>
+</html>

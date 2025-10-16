@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>내 동화 목록</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .story-card { border: 1px solid #ddd; border-radius: 10px; padding: 20px; margin: 15px 0; background: white; }
+        .story-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; }
+        .story-info { color: #666; font-size: 14px; margin-bottom: 15px; }
+        .story-actions { text-align: right; }
+        .btn { background: #007bff; color: white; padding: 8px 16px; border: none; border-radius: 5px; margin: 0 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn:hover { background: #0056b3; }
+        .btn-danger { background: #dc3545; }
+        .btn-danger:hover { background: #c82333; }
+        .empty-message { text-align: center; color: #666; margin: 50px 0; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 내 동화 목록</h1>
+        <a href="/story/create" class="btn">새 동화 만들기</a>
+    </div>
+    
+    <div th:if="${#lists.isEmpty(stories)}" class="empty-message">
+        <p>아직 만든 동화가 없습니다.</p>
+        <a href="/story/create" class="btn">첫 번째 동화 만들기</a>
+    </div>
+    
+    <div th:each="story : ${stories}" class="story-card">
+        <div class="story-title" th:text="${story.title}"></div>
+        <div class="story-info">
+            <span>배경: <span th:text="${story.background}"></span></span><br>
+            <span>등장인물: <span th:text="${story.characters}"></span></span><br>
+            <span>주제: <span th:text="${story.theme}"></span></span><br>
+            <span>생성일: <span th:text="${#temporals.format(story.createdAt, 'yyyy-MM-dd HH:mm')}"></span></span>
+        </div>
+        <div class="story-actions">
+            <a th:href="@{/story/{id}/complete(id=${story.id})}" class="btn">동화 보기</a>
+            <a th:href="@{/story/{id}/delete(id=${story.id})}" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</a>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="/" class="btn">메인으로</a>
+    </div>
+</body>
+</html>

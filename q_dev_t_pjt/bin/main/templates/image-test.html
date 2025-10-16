@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>이미지 생성 테스트</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .form-container { border: 2px solid #ddd; border-radius: 10px; padding: 30px; margin: 20px 0; background: #fafafa; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"] { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        button { background: #007bff; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        img { max-width: 100%; height: auto; border-radius: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🎨 이미지 생성 테스트</h1>
+    
+    <div class="form-container">
+        <form method="post">
+            <div class="form-group">
+                <label for="prompt">이미지 프롬프트:</label>
+                <input type="text" id="prompt" name="prompt" 
+                       placeholder="예: Children's book illustration, cute rabbit in space, cartoon style"
+                       th:value="${prompt}" required>
+            </div>
+            <button type="submit">이미지 생성</button>
+        </form>
+    </div>
+    
+    <div th:if="${success}" class="result success">
+        <h3>✅ 이미지 생성 성공!</h3>
+        <p><strong>프롬프트:</strong> <span th:text="${prompt}"></span></p>
+        <img th:src="${imageUrl}" alt="Generated Image">
+    </div>
+    
+    <div th:if="${success == false}" class="result error">
+        <h3>❌ 이미지 생성 실패</h3>
+        <p><strong>프롬프트:</strong> <span th:text="${prompt}"></span></p>
+        <p th:if="${error}"><strong>오류:</strong> <span th:text="${error}"></span></p>
+    </div>
+    
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="/story/create" style="color: #007bff; text-decoration: none;">← 동화 생성으로 돌아가기</a>
+    </div>
+</body>
+</html>

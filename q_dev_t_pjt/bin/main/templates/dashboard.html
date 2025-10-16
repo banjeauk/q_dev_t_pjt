@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; }
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        .logout-btn { padding: 10px 20px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Welcome, <span th:text="${username}"></span>!</h1>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </div>
+    <div style="margin: 20px 0;">
+        <a href="/chat" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 3px; margin-right: 10px;">AI Chat</a>
+    </div>
+    <p>You have successfully logged in.</p>
+</body>
+</html>
